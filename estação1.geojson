@@ -1,15 +1,65 @@
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "station_name": "INIV Dois Portos"
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mapa Estações</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    #map { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // 1. Inicializar o mapa
+    const map = L.map('map').setView([39.041417, -9.181999], 14);
+
+    // 2. Adicionar camada base (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 3. O teu GeoJSON (pode vir de uma API)
+    const geojsonData = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "station_name": "INIV Dois Portos"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-9.181999, 39.041417]
+          }
+        }
+      ]
+    };
+
+    // 4. Adicionar GeoJSON ao mapa
+    L.geoJSON(geojsonData, {
+      pointToLayer: (feature, latlng) => {
+        return L.marker(latlng);
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-9.181999, 39.041417]
+      onEachFeature: (feature, layer) => {
+        if (feature.properties && feature.properties.station_name) {
+          layer.bindPopup(`
+            <b>📍 ${feature.properties.station_name}</b>
+          `);
+        }
       }
-    }
-  ]
-}
+    }).addTo(map);
+  </script>
+
+</body>
+</html>
