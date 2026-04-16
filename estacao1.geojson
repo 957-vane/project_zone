@@ -1,2 +1,16 @@
-"station_name","latitude","longitude"
-"INIAV Dois Portos","39.041417","-9.181999"
+
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-9.181999, 39.041417]
+      },
+      "properties": {
+        "station_name": "INIAV Dois Portos"
+      }
+    }
+  ]
+}
